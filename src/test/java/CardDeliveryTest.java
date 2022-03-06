@@ -1,4 +1,5 @@
 import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.Configuration;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 
@@ -15,6 +16,8 @@ public class CardDeliveryTest {
 
     @Test
     public void shouldCardReg() {
+        Configuration.holdBrowserOpen=true;
+        Configuration.timeout=50;
         open("http://localhost:9999/");
         $("[type=\"text\"]").setValue("Ярославль");
         $("[data-test-id='date'] input").doubleClick().setValue(String.valueOf(setDataDefault));
@@ -22,7 +25,7 @@ public class CardDeliveryTest {
         $("[data-test-id=\"phone\"] input").setValue("+79066869535");
         $("span.checkbox__box").click();
         $x("//*[text()=\"Забронировать\"]").click();
-        $("[class=\"notification__title\"]").shouldBe(Condition.visible, Duration.ofSeconds(10));
+        $("[class=\"notification__title\"]").shouldBe(Condition.visible, Duration.ofSeconds(12));
         $(".notification__content").shouldHave(Condition.text("Встреча успешно забронирована на " + setDataDefault));
 
 
